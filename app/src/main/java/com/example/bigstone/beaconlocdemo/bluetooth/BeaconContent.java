@@ -30,7 +30,7 @@ public class BeaconContent {
     public static List<BeaconItem> ITEMS = new ArrayList<BeaconItem>();
     public static Map<String, BeaconItem> ITEM_MAP = new HashMap<String, BeaconItem>();
     public static List<LinkedList<LocationBeacon>> beaconList = new ArrayList<LinkedList<LocationBeacon>>();
-    private final static int REFERENCED_BEACON_NUMBER = 3;
+    private final static int REFERENCED_BEACON_NUMBER = 6;
 
 
     private static void addItem(BeaconItem item) {
@@ -46,8 +46,6 @@ public class BeaconContent {
         if (beacons.size() < REFERENCED_BEACON_NUMBER){
             return beacons;
         } else {
-
-
             return beacons.subList(0, REFERENCED_BEACON_NUMBER);
         }
     }
@@ -160,9 +158,14 @@ public class BeaconContent {
         return focused;
     }
 
-
+    private static void clearbeaconRecord(){
+        for (List beacons : beaconList){
+            beacons.clear();
+        }
+    }
 
     private static void loadBeaconRecord() throws NumberFormatException, IOException{
+        clearbeaconRecord();
         FileReader reader = new FileReader(GlobalConfig.beaconFilePath);
         BufferedReader br = new BufferedReader(reader);
         String rtRecord = null;

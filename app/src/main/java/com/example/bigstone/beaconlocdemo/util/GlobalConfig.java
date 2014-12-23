@@ -11,9 +11,9 @@ import hk.ust.cse.indoorloc.structure.Segment;
  * Created by bigstone on 10/11/14.
  */
 public class GlobalConfig {
-    public static final int COMPRESS_RATE = 4;
-    public static final float CONVERT_DEGREE = 270;
-    public static final int MAP_SCALE = 13;
+    public static final int COMPRESS_RATE = 2;
+    public static final float CONVERT_DEGREE = 0;
+    public static final int MAP_SCALE = 67;
     public static List<String> floorNameArray = Arrays.asList("Ground");
 
     public static List<String> floorFolderArray = Arrays.asList("1000");
@@ -32,7 +32,7 @@ public class GlobalConfig {
     public static boolean displayRange = true;
     public static boolean displayParticle = true;
 
-    public static boolean attach = true;
+    public static boolean attach = false;
     public static Segment.Type drawMode = Segment.Type.WALL;
 
     public static int INTERESTED_MESSAGE_TYPE = 1;

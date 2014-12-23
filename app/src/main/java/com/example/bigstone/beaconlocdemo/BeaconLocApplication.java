@@ -45,7 +45,7 @@ public class BeaconLocApplication extends Application implements BootstrapNotifi
 
         mBeaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
         mBeaconManager.setForegroundBetweenScanPeriod(100);
-        mBeaconManager.setForegroundScanPeriod(1000);
+        mBeaconManager.setForegroundScanPeriod(2000);
     }
 
     private void verifyBluetooth() {

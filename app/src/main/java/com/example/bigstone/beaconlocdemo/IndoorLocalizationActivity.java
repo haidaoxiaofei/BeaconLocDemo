@@ -73,7 +73,7 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
     private Canvas canvas;
     private Paint paint;
     private Point cPoint = new Point();
-    private String location = "null";
+    private String location = "1000";
 
     public static int INTERESTED_MESSAGE_TYPE = 2; // 1 for mixed localization, 2 for iBeacon, 3 for Sensor result
 
@@ -109,7 +109,7 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_indoor_localization);
         info = (TextView)findViewById(R.id.info_txt);
-
+        beaconLocater.setMAP_SCALE(67);
         initialData();
         setupMap();
         setupSensor();
@@ -266,7 +266,8 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = GlobalConfig.COMPRESS_RATE;
 
-            myImg = BitmapFactory.decodeFile(imgFilePath, options);
+            myImg = BitmapFactory.decodeFile(imgFilePath, options).copy(
+                    Bitmap.Config.ARGB_8888, true);
             matrix = new Matrix();
             matrix.postRotate(GlobalConfig.CONVERT_DEGREE);
 
@@ -417,7 +418,7 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
         List<LocationBeacon> pinBeacons =
                 BeaconContent.extractNearestBeacon(BeaconContent.findRegisteredBeacons(beacons));
 
-        Point center = beaconLocater.estimateLocation(beacons, pinBeacons);
+        Point center = beaconLocater.estimateLocation(pinBeacons);
         if (GlobalConfig.attach){
 
             int locationIndex = GlobalConfig.floorFolderArray.indexOf(center.areaId);
