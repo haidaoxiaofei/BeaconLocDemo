@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BeaconLocDemo</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="IP">http://lccpu4.cse.ust.hk</string>
+    <string name="img_url">/indoorMaps/indoorFiles/*areaId*/map.jpg</string>
+    <string name="title_activity_indoor_localization">IndoorLocalizationActivity</string>
+    <string name="title_activity_beacon_scanner">BeaconScannerActivity</string>
+    <string name="title_activity_layout_draw">LayoutDraw</string>
+</resources>
