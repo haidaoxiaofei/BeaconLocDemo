@@ -26,13 +26,13 @@ public class GlobalConfig {
     public static String routeFilePath = OUTPUT_BASE_PATH + "layout/route.txt";
 
 
-    public static boolean displayWall = false;
-    public static boolean displayRoute = false;
+    public static boolean displayWall = true;
+    public static boolean displayRoute = true;
     public static boolean displayBeacon = true;
     public static boolean displayRange = true;
     public static boolean displayParticle = true;
 
-    public static boolean attach = false;
+    public static boolean attach = true;
     public static Segment.Type drawMode = Segment.Type.WALL;
 
     public static int INTERESTED_MESSAGE_TYPE = 1;

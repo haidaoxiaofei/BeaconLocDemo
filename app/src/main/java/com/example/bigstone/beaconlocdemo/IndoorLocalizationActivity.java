@@ -75,11 +75,14 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
     private Point cPoint = new Point();
     private String location = "1000";
 
-    public static int INTERESTED_MESSAGE_TYPE = 1; // 1 for mixed localization, 2 for iBeacon, 3 for Sensor result
+    public static int INTERESTED_MESSAGE_TYPE = 2; // 1 for mixed localization, 2 for iBeacon, 3 for Sensor result, 4 for step detection
 
     private boolean hasInited = false;
 
+    private boolean hasMoved = true;
+    private boolean needStable = true; //only update location when detected moving
 
+    private int count = 0;
     private BeaconLocate beaconLocater = new BeaconLocate();
     public static List<LinkedList<Segment>> wallList = new ArrayList<LinkedList<Segment>>();
     public static List<LinkedList<Segment>> routeList = new ArrayList<LinkedList<Segment>>();
@@ -102,6 +105,10 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
 
             }
 
+            if (msg.what == 4){
+                hasMoved = true;
+            }
+
         };
     };
     @Override
@@ -118,6 +125,7 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
         initialData();
 
         ParticleFilter pf = new ParticleFilter(wallList.get(0 /* areaId, if you add changing floor function, please update this*/), GlobalConfig.MAP_SCALE);
+
 
         LocationUpdateTimerTask pointCalculateTimerTask = new LocationUpdateTimerTask(mHandler, wallList.get(0), pf);
         Timer timer = new Timer("update", true);
@@ -166,7 +174,7 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
         drawCircle(cPoint, ParticleFilter.SAFE_RANGE);
 
         location = cPoint.areaId;
-        info.setText(location+" area:"+ cPoint.x+","+ cPoint.y);
+        info.setText(location+" area:"+ cPoint.x+","+ cPoint.y+":count:" + count++);
     }
 
     private void displayParticles(){
@@ -204,6 +212,7 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
             sensorManager.registerListener(SimpleStepDetector.instance(), s,
                     SensorManager.SENSOR_DELAY_FASTEST);
         }
+        SimpleStepDetector.mHandler = this.mHandler;
         SimpleStepDetector.instance().start();
     }
 
@@ -421,24 +430,40 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
                 BeaconContent.extractNearestBeacon(BeaconContent.findRegisteredBeacons(beacons));
 
         Point center = beaconLocater.estimateLocation(pinBeacons);
+
         if (GlobalConfig.attach){
 
             int locationIndex = GlobalConfig.floorFolderArray.indexOf(center.areaId);
             if (locationIndex != -1){
                 Segment s = RouteFinder.findNearestSegment(routeList.get(locationIndex), center);
                 center = s.projectPoint(center);
-
-
-                long time_long = System.nanoTime();
-                MessageBufferManager.addBluetoothMessage(new BluetoothMessage(time_long, center));
             }
 
         }
 
 
-        Message msg = new Message();
-        msg.what = 2;
-        msg.obj = center;
-        mHandler.sendMessage(msg);
+        if (needStable){
+            if (hasMoved){
+                long time_long = System.nanoTime();
+                MessageBufferManager.addBluetoothMessage(new BluetoothMessage(time_long, center));
+
+                Message msg = new Message();
+                msg.what = 2;
+                msg.obj = center;
+                mHandler.sendMessage(msg);
+                hasMoved = false;
+            }
+
+        } else {
+            long time_long = System.nanoTime();
+            MessageBufferManager.addBluetoothMessage(new BluetoothMessage(time_long, center));
+
+            Message msg = new Message();
+            msg.what = 2;
+            msg.obj = center;
+            mHandler.sendMessage(msg);
+        }
+
+
     }
 }
