@@ -87,9 +87,9 @@
     <orderEntry type="library" exported="" name="commons-pool-1.6" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-20.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-20.0.0" level="project" />
-    <orderEntry type="library" exported="" name="indoorloc" level="project" />
     <orderEntry type="library" exported="" name="org.apache.commons.pool-1.6" level="project" />
     <orderEntry type="library" exported="" name="commons-math3-3.3" level="project" />
+    <orderEntry type="module" module-name="indoorlocalization" exported="" />
   </component>
 </module>
 

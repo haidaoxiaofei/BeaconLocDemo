@@ -75,7 +75,7 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
     private Point cPoint = new Point();
     private String location = "1000";
 
-    public static int INTERESTED_MESSAGE_TYPE = 2; // 1 for mixed localization, 2 for iBeacon, 3 for Sensor result
+    public static int INTERESTED_MESSAGE_TYPE = 1; // 1 for mixed localization, 2 for iBeacon, 3 for Sensor result
 
     private boolean hasInited = false;
 
@@ -117,7 +117,9 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
 
         initialData();
 
-        LocationUpdateTimerTask pointCalculateTimerTask = new LocationUpdateTimerTask(mHandler, null, GlobalConfig.MAP_SCALE);
+        ParticleFilter pf = new ParticleFilter(wallList.get(0 /* areaId, if you add changing floor function, please update this*/), GlobalConfig.MAP_SCALE);
+
+        LocationUpdateTimerTask pointCalculateTimerTask = new LocationUpdateTimerTask(mHandler, wallList.get(0), pf);
         Timer timer = new Timer("update", true);
         timer.schedule(pointCalculateTimerTask, 2000, 500);
     }
