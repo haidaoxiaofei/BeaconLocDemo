@@ -212,8 +212,14 @@ public class IndoorLocalizationActivity extends Activity implements RangeNotifie
             sensorManager.registerListener(SimpleStepDetector.instance(), s,
                     SensorManager.SENSOR_DELAY_FASTEST);
         }
+        SimpleStepDetector.instance().setDifferenceDelta(1);
+        SimpleStepDetector.instance().setMinPeak(3);
+        SimpleStepDetector.instance().setStepDetectionDelta(700);
+
         SimpleStepDetector.mHandler = this.mHandler;
         SimpleStepDetector.instance().start();
+
+
     }
 
     private void refreshMap(){
